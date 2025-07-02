@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://i6xf7qjqm1r3"]
+
+[ext_resource type="Script" uid="uid://cdru3spegvltk" path="res://paddle/paddle.gd" id="1_wmxf4"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ywfuc"]
+bg_color = Color(0.827385, 0.51859, 0.195855, 1)
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+shadow_color = Color(0, 0, 0, 0.278431)
+shadow_size = 2
+shadow_offset = Vector2(1, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wmxf4"]
+size = Vector2(128, 24)
+
+[node name="Paddle" type="StaticBody2D"]
+script = ExtResource("1_wmxf4")
+
+[node name="Panel" type="Panel" parent="."]
+offset_right = 128.0
+offset_bottom = 24.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_ywfuc")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(64, 12)
+shape = SubResource("RectangleShape2D_wmxf4")

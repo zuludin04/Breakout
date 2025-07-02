@@ -1,0 +1,34 @@
+[gd_scene load_steps=6 format=3 uid="uid://flpnunyi58yf"]
+
+[ext_resource type="Script" uid="uid://cjtpfsrm8jjve" path="res://ball/ball.gd" id="1_6plaf"]
+[ext_resource type="AudioStream" uid="uid://buwqon82d0yqk" path="res://ball/hit_wall.wav" id="2_biv8x"]
+[ext_resource type="AudioStream" uid="uid://d01hn6m4jf0hi" path="res://ball/hit_brick.wav" id="3_6xd6y"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dnnlr"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 40
+corner_radius_top_right = 40
+corner_radius_bottom_right = 40
+corner_radius_bottom_left = 40
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_6plaf"]
+radius = 11.1803
+
+[node name="Ball" type="CharacterBody2D"]
+script = ExtResource("1_6plaf")
+
+[node name="Panel" type="Panel" parent="."]
+offset_right = 20.0
+offset_bottom = 20.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_dnnlr")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(10, 10)
+shape = SubResource("CircleShape2D_6plaf")
+
+[node name="HitWallSfx" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_biv8x")
+volume_db = -15.928
+
+[node name="HitBrickSfx" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_6xd6y")

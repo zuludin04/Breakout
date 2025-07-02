@@ -1,0 +1,139 @@
+[gd_scene load_steps=11 format=3 uid="uid://dd7dvhto1bsqr"]
+
+[ext_resource type="PackedScene" uid="uid://i6xf7qjqm1r3" path="res://paddle/paddle.tscn" id="1_bwyfi"]
+[ext_resource type="PackedScene" uid="uid://flpnunyi58yf" path="res://ball/ball.tscn" id="2_df5pp"]
+[ext_resource type="Script" uid="uid://bckxwxd3xin17" path="res://pitt/pitt.gd" id="2_g7mx2"]
+[ext_resource type="Script" uid="uid://dhlji5hkfpgau" path="res://hud/hud.gd" id="4_qsd0w"]
+[ext_resource type="Script" uid="uid://ca16rllle4au3" path="res://brick/brick_spawn.gd" id="5_efyo6"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8a3p6"]
+size = Vector2(800, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bwyfi"]
+size = Vector2(20, 640)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_df5pp"]
+size = Vector2(20, 640)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_efyo6"]
+size = Vector2(800, 20)
+
+[sub_resource type="LabelSettings" id="LabelSettings_qsd0w"]
+font_size = 26
+
+[node name="GameLevel" type="Node"]
+
+[node name="BackgroundColor" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.154876, 0.154876, 0.154876, 1)
+
+[node name="Paddle" parent="." instance=ExtResource("1_bwyfi")]
+position = Vector2(332, 569)
+
+[node name="Walls" type="Node2D" parent="."]
+
+[node name="TopWall" type="StaticBody2D" parent="Walls"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/TopWall"]
+position = Vector2(400, -10)
+shape = SubResource("RectangleShape2D_8a3p6")
+
+[node name="LeftWall" type="StaticBody2D" parent="Walls"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/LeftWall"]
+position = Vector2(-10, 320)
+shape = SubResource("RectangleShape2D_bwyfi")
+
+[node name="RightWall" type="StaticBody2D" parent="Walls"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/RightWall"]
+position = Vector2(810, 320)
+shape = SubResource("RectangleShape2D_df5pp")
+
+[node name="Pitt" type="Area2D" parent="Walls"]
+script = ExtResource("2_g7mx2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Pitt"]
+position = Vector2(400, 650)
+shape = SubResource("RectangleShape2D_efyo6")
+
+[node name="Ball" parent="." instance=ExtResource("2_df5pp")]
+position = Vector2(377, 535)
+
+[node name="BrickSpawn" type="Node" parent="."]
+script = ExtResource("5_efyo6")
+
+[node name="HUD" type="CanvasLayer" parent="."]
+script = ExtResource("4_qsd0w")
+
+[node name="GameInfo" type="Control" parent="HUD"]
+layout_mode = 3
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 41.0
+grow_horizontal = 2
+
+[node name="Score" type="Label" parent="HUD/GameInfo"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.01
+anchor_top = 0.219512
+anchor_right = 0.06
+anchor_bottom = 0.780488
+grow_vertical = 2
+text = "0"
+horizontal_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Lives" type="Label" parent="HUD/GameInfo"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.94
+anchor_top = 0.219512
+anchor_right = 0.99
+anchor_bottom = 0.780488
+grow_horizontal = 0
+grow_vertical = 2
+text = "Lives : 3"
+horizontal_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="GameState" type="Control" parent="HUD"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="HUD/GameState"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.54902, 0.54902, 0.54902, 0.556863)
+
+[node name="StateMessage" type="Label" parent="HUD/GameState"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.4
+anchor_top = 0.471875
+anchor_right = 0.6
+anchor_bottom = 0.528125
+offset_left = 60.0
+offset_top = 6.5
+offset_right = -60.0
+offset_bottom = -6.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Click to Start"
+label_settings = SubResource("LabelSettings_qsd0w")
+metadata/_edit_use_anchors_ = true
+
+[connection signal="body_entered" from="Walls/Pitt" to="Walls/Pitt" method="_on_body_entered"]
